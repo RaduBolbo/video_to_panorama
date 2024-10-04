@@ -2,16 +2,26 @@ from setuptools import setup, find_packages
 
 setup(
     name='video2panorama',
-    version='0.1.0',
+    version='1.0.0',
+    author='Bolborici Radu-George',
+    author_email='radu.bolborici@gmail.com',
+    description='A package to convert video sequences into panoramic images',
+    long_description=open('README.md').read(),
+    long_description_content_type='text/markdown',
+    url='https://github.com/RaduBolbo/video_to_panorama.git', 
     packages=find_packages(),
     install_requires=[
-        'opencv-python',
-        'numpy'
+        'imageio>=2.35.1'
+        'matplotlib>=3.9.2',
+        'numpy>=2.1.1',
+        'opencv-python>=4.10.0.84',
+        'pillow>=10.4.0',
+        'tqdm>=4.66.5'
     ],
-    entry_points={
-        'console_scripts': [
-            'video2panorama=video2panorama.main:main',  # Define the CLI command and link to your main function
-        ],
-    },
-    python_requires='>=3.6',  # Adjust according to your Python version requirement
+    classifiers=[
+        'Programming Language :: Python :: 3',
+        'License :: OSI Approved :: Apache 2.0',
+        'Operating System :: OS Independent',
+    ],
+    python_requires='>=3.8',
 )
