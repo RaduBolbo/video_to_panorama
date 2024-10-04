@@ -18,7 +18,7 @@
   </div>
 </div>
 
-# How to install
+## How to install
 
 **1. install with pip**
 
@@ -58,7 +58,7 @@ pip install .
 ```
 
 
-# How to use
+## How to use
 
 **2. Using the terminal**
 
@@ -82,7 +82,7 @@ The config file should have the following format:
     "non_dominant_direction_pixels_freedom_degree" : 0
 }
 ```
-The hyperparameters are explained in ****
+The hyperparameters are explained in [this section](#Hyperparameters)
 
 
 
@@ -104,4 +104,5 @@ tts = Video2Panorama(feature_extraction_algo="sift",
                     non_dominant_direction_pixels_freedom_degree=0
                     )
 ```
-**3. Hyperparameters**
+
+## Hyperparameters
