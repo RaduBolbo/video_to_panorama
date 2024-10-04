@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='video2panorama',
-    version='1.0.0',
+    version='1.0.3',
     author='Bolborici Radu-George',
     author_email='radu.bolborici@gmail.com',
     description='A package to convert video sequences into panoramic images',
@@ -22,6 +22,9 @@ setup(
         'console_scripts': [
             'video2panorama=video2panorama.main:main',  # This connects the CLI command to your main function
         ],
+    },
+    package_data={
+        'video2panorama': ['hyperparameters.json'],  # Specify the JSON file
     },
     classifiers=[
         'License :: OSI Approved :: Apache Software License',
