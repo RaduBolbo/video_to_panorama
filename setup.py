@@ -11,13 +11,18 @@ setup(
     url='https://github.com/RaduBolbo/video_to_panorama.git', 
     packages=find_packages(),
     install_requires=[
-        'imageio>=2.35.1'
+        'imageio>=2.35.1',
         'matplotlib>=3.9.2',
         'numpy>=2.1.1',
         'opencv-python>=4.10.0.84',
         'pillow>=10.4.0',
         'tqdm>=4.66.5'
     ],
+    entry_points={
+        'console_scripts': [
+            'video2panorama=video2panorama.main:main',  # This connects the CLI command to your main function
+        ],
+    },
     classifiers=[
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: Apache 2.0',
