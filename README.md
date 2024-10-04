@@ -8,15 +8,17 @@
 
 <div style="display: flex; align-items: center;">
   <div>
-    <video width="320" height="240" controls>
-      <source src="data/video_horiz_ds.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
+    <img src="data/gif_ds.gif" alt="Your GIF" width="220" height="240">
+  </div>
+  <div style="margin: 0 10px;">
+    &#8594; <!-- This is the HTML entity for a right arrow -->
   </div>
   <div>
     <img src="data/output_ds.png" alt="Your Image" width="320" height="240">
   </div>
 </div>
+
+
 
 ## How to install
 
