@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 import imageio
-cv2.ocl.setUseOpenCL(False)
+cv2.ocl.setUseOpenCL(False) # this prevents errors for some builds
 import warnings
 warnings.filterwarnings('ignore')
 from collections import Counter
@@ -16,17 +16,17 @@ def most_common_element(lst):
 
 def get_movement_direction_AND_speed(video_path, hop):
     '''
-    Reruneaza 'lr', 'rl', 'js' sau 'sj' in fucntie d edirectia prepondereta a miscarii.
-    Se utilizeaza siste de votare. Se sare din hop in hop cadre.
+    Returns 'sd' (left-right), 'ds' (right-left), 'js' (down-up) or 'sj' (up-down) depending on the movement direction.
+    Using a voting system. To speed up, the algorithm jumps from hop to hop frames.
     '''
     cap = cv2.VideoCapture(video_path)
     if not cap.isOpened():
-        print("Error: Cu se poate deschide fisierul.")
+        print("Error: Can't open the file.")
         return []
 
     ret, prev_frame = cap.read()
     if not ret:
-        print("Error: Nu se gasesc cadre.")
+        print("Error: Couldn't read any frames.")
         return []
 
     prev_gray = cv2.cvtColor(prev_frame, cv2.COLOR_BGR2GRAY)
@@ -43,7 +43,7 @@ def get_movement_direction_AND_speed(video_path, hop):
 
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         '''
-        # cv2.calcOpticalFlowFarneback => calculeaza fluxul optic cu metoda  Gunnar Farneback's
+        # cv2.calcOpticalFlowFarneback => computes optical flux with Gunnar Farneback's method
         Parametrii:
         0.5: The image scale parameter for the pyramid (or simple) layer. It is used to scale down the image each pyramid level. In this case, each level is half the previous level.
         3: The number of levels in the pyramid. A value of 3 indicates the use of three levels.
@@ -52,25 +52,23 @@ def get_movement_direction_AND_speed(video_path, hop):
         5: The size of the pixel neighborhood used to find polynomial expansion in each pixel.
         1.2: The standard deviation of the Gaussian used to smooth derivatives for polynomial expansion.
         '''
-        # se calculeaza fluxul optic cu metoda  Gunnar Farneback's
+        # computes optical flux with Gunnar Farneback's method
         flow = cv2.calcOpticalFlowFarneback(prev_gray, gray, None, 0.5, 3, 15, 3, 5, 1.2, 0)
-        # ... = toate elementele de pe toate directiile, dar s epune exceptie pe ultima dimensiune de unde s ia doar 0.
-        # flow va contine pentru fiecare pixel din imagine cat de mult s-a deplasat pe orizontala (in planul 0) si pe verticala (in pl1).
-        # ! Campul de vectori se poate obtine combinand cele doua plane (:, : 0) si (:, :, 1)
+        # ... = all elements in all directions, but an exception is made for the last dimension, from which only 0 is taken.
+        # flow will contain, for each pixel in the image, how much it has shifted horizontally (in plane 0) and vertically (in plane 1).
+        # ! The vector field can be obtained by combining the two planes (:, :, 0) and (:, :, 1).
         horz_movement = flow[..., 0].mean()
         vert_movement = flow[..., 1].mean()
 
         if abs(horz_movement) > abs(vert_movement):
-            # daca vectorii de 
             direction = 'ds' if horz_movement > 0 else 'sd'
         else:
             direction = 'js' if vert_movement > 0 else 'sj'
         directions.append(direction)
 
-        # de asemenea, vreau estimarea vitezei
-        # traduc la coordonate poalre
+        # Estimate the velocity and translate it to polar coordinates
         magnitude, angle = cv2.cartToPolar(flow[..., 0], flow[..., 1])
-        # calculez media magnitudinilor
+        # computing magnitude averages
         magnitudini.append(np.mean(magnitude))
 
         prev_gray = gray
@@ -81,18 +79,18 @@ def get_movement_direction_AND_speed(video_path, hop):
 
 def fill(extended_mask):
     '''
-    Practic doar face inchiderea morfologica
+    Morphological image closing
     '''
     extended_mask_8bit = (extended_mask * 255).astype(np.uint8)
 
-    # definesc filtrul
-    kernel_size = 7  # dimensiune kernel
+    # define the filter
+    kernel_size = 7  # kernel size
     kernel = np.ones((kernel_size, kernel_size), np.uint8)
 
-    # inchidere morfologica
+    # morphological closing
     closed_mask = cv2.morphologyEx(extended_mask_8bit, cv2.MORPH_CLOSE, kernel)
 
-    # conversie inapoi la boolean
+    # convert back to boolean
     closed_mask_bool = closed_mask.astype(bool)
     return closed_mask_bool
 
@@ -119,3 +117,5 @@ def trim_black_rows_or_columns(image, row_or_column='row'):
         cropped_image = image[:, non_black_indices[0]:non_black_indices[-1] + 1]
 
     return cropped_image
+
+
