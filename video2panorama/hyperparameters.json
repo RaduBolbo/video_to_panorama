@@ -1,0 +1,7 @@
+{
+    "feature_extraction_algo" : "sift",
+    "ratio" : 0.75,
+    "reprojectionThresh" : 2,
+    "adaptive_shift_pixels" : 2,
+    "non_dominant_direction_pixels_freedom_degree" : 0
+}
