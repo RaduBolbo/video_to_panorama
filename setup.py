@@ -24,9 +24,7 @@ setup(
         ],
     },
     classifiers=[
-        'Programming Language :: Python :: 3',
-        'License :: OSI Approved :: Apache 2.0',
-        'Operating System :: OS Independent',
+        'License :: OSI Approved :: Apache Software License',
     ],
     python_requires='>=3.8',
 )

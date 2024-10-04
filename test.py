@@ -1,12 +1,11 @@
 import os
-
-
+from video2panorama.panorama import Video2Panorama
 
 # run as API
 
-from video2panorama.panorama import Video2Panorama
 
-tts = Video2Panorama('video2panorama/hyperparameters.json')
+
+tts = Video2Panorama()
 tts.convert('data/video_horiz_sd.mp4', 'data/output_sd.png')
 tts.convert('data/video_horiz_ds.mp4', 'data/output_ds.png')
 tts.convert('data/video_vert_js.mp4', 'data/output_js.png')

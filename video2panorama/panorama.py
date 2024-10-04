@@ -15,18 +15,26 @@ from video2panorama.utils import most_common_element, get_movement_direction_AND
 
 class Video2Panorama():
 
-    def __init__(self, hyperparameters_path=None):
+    def __init__(self, 
+                hyperparameters_path=None,
+                feature_extraction_algo=None,
+                ratio=None,
+                reprojectionThresh=None,
+                adaptive_shift_pixels=None,
+                non_dominant_direction_pixels_freedom_degree=None):
+        
         if hyperparameters_path is None:
             self.hyperparameters_path = os.path.join(os.path.dirname(__file__), 'hyperparameters.json')
         else:
             self.hyperparameters_path = hyperparameters_path
         with open(self.hyperparameters_path, 'r') as file:
             hyperparameters = json.load(file)
-        self.feature_extraction_algo = hyperparameters['feature_extraction_algo']
-        self.ratio = hyperparameters['ratio']
-        self.reprojectionThresh = hyperparameters['reprojectionThresh']
-        self.adaptive_shift_pixels = hyperparameters['adaptive_shift_pixels']
-        self.numar_pixeli_grad_libertate_directie_nedominanta = hyperparameters['numar_pixeli_grad_libertate_directie_nedominanta']
+        
+        self.feature_extraction_algo = hyperparameters['feature_extraction_algo'] if feature_extraction_algo is None else feature_extraction_algo
+        self.ratio = hyperparameters['ratio'] if ratio is None else ratio
+        self.reprojectionThresh = hyperparameters['reprojectionThresh'] if reprojectionThresh is None else reprojectionThresh
+        self.adaptive_shift_pixels = hyperparameters['adaptive_shift_pixels'] if adaptive_shift_pixels is None else adaptive_shift_pixels
+        self.non_dominant_direction_pixels_freedom_degree = hyperparameters['non_dominant_direction_pixels_freedom_degree'] if non_dominant_direction_pixels_freedom_degree is None else non_dominant_direction_pixels_freedom_degree
 
     def _get_movement_direction(self, video_path):
         # Replace 'path_to_video' with your video file path
@@ -129,7 +137,7 @@ class Video2Panorama():
 
             # for width it is the maximum of the heights
             height = max(query_photo.shape[0], train_photo.shape[0])
-            height += self.numar_pixeli_grad_libertate_directie_nedominanta
+            height += self.non_dominant_direction_pixels_freedom_degree
 
             # Here the perspective transformation is applied to the second image -> essentially performing the homographic transformation
             # The resulting image will be the next frame transformed into the new coordinates
@@ -155,7 +163,7 @@ class Video2Panorama():
         elif direction == 'sj' or direction == 'js': # daca miscarea e pe vericala
             # sum image widths
             width = max(query_photo.shape[1], train_photo.shape[1])
-            width += self.numar_pixeli_grad_libertate_directie_nedominanta
+            width += self.non_dominant_direction_pixels_freedom_degree
 
             # hor height select the maximum of heights
             height = query_photo.shape[0] + train_photo.shape[0]
