@@ -31,15 +31,15 @@ class Video2Panorama():
     def _get_movement_direction(self, video_path):
         # Replace 'path_to_video' with your video file path
         direction, speed = get_movement_direction_AND_speed(video_path, 4)
-        print('Directia miscarii este: ', direction)
-        print('Viteza miscarii, ca medie a magnitudinii vectorilor flux optic, este: ', speed)
+        print('Movement direction is: ', direction)
+        print('Movement speed, as optical flux vector average is: ', speed)
 
         # Create a VideoCapture object
         cap = cv2.VideoCapture(video_path)
 
         # fint out the number of frames
         total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-        print('Numar total de cadre: : ', total_frames)
+        print('Total frames: ', total_frames)
 
         # adaptive adapting the parameters to number of frames
         begin_idx = min(10, total_frames)
@@ -50,7 +50,7 @@ class Video2Panorama():
         adaptive_hop = round(164/speed) # The coefficient 164 was chosen based on experiments conducted at different speeds.
 
         hop = adaptive_hop
-        print('Hopul adaptiv calculat este: ', adaptive_hop)
+        print('Adaptive hop: ', adaptive_hop)
 
         # invert video
         if direction == 'ds' or direction == 'js':
@@ -87,7 +87,7 @@ class Video2Panorama():
             return Homography_Matrix
         else:
             # continue to the next loop if entering the else clause
-            print("Nu s-a putut calcula matricea de omografie.")
+            print("Couldn't compute homography matrix.")
             return None
 
     def _find_homography_matrix(self, train_photo, query_photo, descriptor, bf, direction):
@@ -178,7 +178,7 @@ class Video2Panorama():
             result[0:query_photo.shape[0], 0:query_photo.shape[1]][extended_mask_3d] = query_photo[extended_mask_3d]
 
         else:
-            print('Problema la estimarea miscarii. trebuia ca direction sa feie ori js ori sj ori ds ori sd')
+            print('Issue in movement estimation step. Direction should have been one of: "sd", "ds", "js" or "sj"')
         # Prepare variables for the next loop
         query_photo = np.copy(result)
         return query_photo
@@ -210,9 +210,7 @@ class Video2Panorama():
             # ret va fi boolean - inidc
             ret2, frame2 = cap.read()
             train_photo = frame2
-            ######################### MODIFICAT 2024
             train_photo = cv2.cvtColor(train_photo,cv2.COLOR_BGR2RGB)
-            ######################### MODIFICAT 2024
 
             # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
             '''
