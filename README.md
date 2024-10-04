@@ -6,6 +6,17 @@
 
 **video2panorama** is a Python-based tool designed to transform video sequences into panoramic images. It automates the stitching process by analyzing frames from input video files and producing panoramic outputs. 
 
+<div style="display: flex; align-items: center;">
+  <div>
+    <video width="320" height="240" controls>
+      <source src="data/video_horiz_ds.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  <div>
+    <img src="data/output_ds.png" alt="Your Image" width="320" height="240">
+  </div>
+</div>
 
 # How to install
 
@@ -93,3 +104,4 @@ tts = Video2Panorama(feature_extraction_algo="sift",
                     non_dominant_direction_pixels_freedom_degree=0
                     )
 ```
+**3. Hyperparameters**
