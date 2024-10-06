@@ -64,12 +64,12 @@ pip install .
 
 **2. Using the terminal**
 
-Run the following command in the terimanl:
+Run the following command in the teriminal:
 ```bash
 video2panorama  --input_path path/to/your/video.mp4 --output_path path/to/the/output/panoramic_image.png
 ```
 
-Additionally, if you wantto try other hyperparameters, you can include them in a .json file whos path you can send to the comman:
+Additionally, if you want to try other hyperparameters, you can include them in a .json file whos path you can send as option:
 ```bash
 video2panorama  --input_path path/to/your/video.mp4 --output_path path/to/the/output/panoramic_image.png --hyperparameters_path path/to/your/config/file.json
 ```
@@ -108,3 +108,5 @@ tts = Video2Panorama(feature_extraction_algo="sift",
 ```
 
 ## Hyperparameters
+
+Under development
