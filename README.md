@@ -5,7 +5,7 @@
 # video2panorama
 
 **video2panorama** is a Python-based tool designed to transform video sequences into panoramic images. It automates the stitching process by analyzing frames from input video files and producing panoramic outputs. 
-
+ 
 <div style="display: flex; align-items: center;">
   <div>
     <img src="data/gif_ds.gif" alt="Your GIF" width="220" height="240">
